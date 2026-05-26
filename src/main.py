@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 from src.agent.engine import run_wang_street_loop
 from src.utils.helpers import log_error
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 def main():
     load_dotenv()
     if not os.getenv("DEEPSEEK_API_KEY"):
