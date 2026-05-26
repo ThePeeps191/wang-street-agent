@@ -16,6 +16,15 @@ def run_wang_street_loop(user_objective: str, max_turns: int = 6):
     for turn in range(1, max_turns + 1):
         try:
             thought_output = generate_agent_reasoning(messages)
+
+            if not thought_output or not thought_output.strip():
+                log_error("Agent returned an empty response. Injecting recovery prompt and retrying.")
+                messages.append({
+                    "role": "user",
+                    "content": "[SYSTEM]: Your previous response was empty. Review the data provided above and continue your analysis. If you have tool results, process them. If you need more data, call a tool. Output a REASONING block followed by an [ACTION] directive or a final summary."
+                })
+                continue
+
             log_agent_step(turn, thought_output)
             
             # Track memory trail
@@ -37,6 +46,11 @@ def run_wang_street_loop(user_objective: str, max_turns: int = 6):
                     messages.append({
                         "role": "user",
                         "content": f"[TOOL EXECUTION RESULT FOR {tool_name}]: {execution_result}"
+                    })
+
+                    messages.append({
+                        "role": "user",
+                        "content": "[SYSTEM]: Tool execution complete. Analyze the result above and decide your next step. If you need additional data or calculations, call the appropriate tool with a REASONING block and [ACTION] directive. If you have all required metrics, write your final quantitative synthesis report now."
                     })
                 else:
                     err = f"Requested tool '{tool_name}' does not exist in local registry definitions."
