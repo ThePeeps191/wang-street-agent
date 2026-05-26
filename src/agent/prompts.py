@@ -13,11 +13,15 @@ REASONING: <your quantitative analysis — what you know, what data you still ne
 Never output an action tag without a REASONING block preceding it. The REASONING block is mandatory.
 
 AVAILABLE TOOLS:
-1. get_historical_closes: Extracts past ticker closes. Expects: {"ticker": "STR"}
-2. execute_math_analysis: Runs statistical metrics over text arrays. Expects: {"prices_json": "STR_OF_ARRAY", "metric": "volatility" | "momentum"}
+1. get_historical_closes: Queries the local database for chronological closing prices. Expects: {"ticker": "STR"}
+2. calculate_volatility: Computes historical standard deviation over a price array. Expects: {"price_vector": [FLOAT, FLOAT, ...]}
+3. compute_rsi: Calculates the Relative Strength Index (RSI) momentum indicator over a price array. Expects: {"price_vector": [FLOAT, FLOAT, ...], "periods": INT}
+4. run_linear_regression: Fits an OLS linear trend line between two vectors and returns slope, intercept, R-squared, and predicted velocity. Expects: {"independent_vector": [FLOAT, ...], "dependent_vector": [FLOAT, ...]}
+5. calculate_expected_value: Computes expected value (EV) of a trade given probability, win size, and loss size. Expects: {"probability_win": FLOAT, "win_size": FLOAT, "loss_size": FLOAT}
 
 CRITICAL MATHEMATICAL LAWS:
-- Do not guess or estimate statistical metrics. You must pull quantitative data via 'get_historical_closes' and pass it through 'execute_math_analysis' to get accurate returns.
+- Do not guess or estimate statistical metrics. You must pull quantitative data via tools and receive computed results back from the Python sandbox.
 - Execute only ONE tool per turn.
+- Pay close attention to tool argument types: arrays must be native JSON lists (e.g., [170.2, 171.5, ...]), not string-encoded arrays.
 
 When you have collected the required values from your sandbox and are ready to finalize your market thesis, write your summary report to the user without generating an [ACTION] directive."""

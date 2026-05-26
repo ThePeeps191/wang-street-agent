@@ -1,7 +1,15 @@
 from src.tools.finance import get_historical_closes
-from src.tools.math_sandbox import execute_math_analysis
+from src.tools.indicators import (
+    calculate_volatility,
+    compute_rsi,
+    run_linear_regression,
+    calculate_expected_value,
+)
 
 TOOL_ROUTER = {
-    "get_historical_closes": get_historical_closes,
-    "execute_math_analysis": execute_math_analysis
+    "get_historical_closes":    get_historical_closes,
+    "calculate_volatility":     calculate_volatility,
+    "compute_rsi":              compute_rsi,
+    "run_linear_regression":    run_linear_regression,
+    "calculate_expected_value": calculate_expected_value,
 }

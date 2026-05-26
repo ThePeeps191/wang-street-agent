@@ -7,7 +7,7 @@ def parse_agent_action(text: str):
     Returns (tool_name, parsed_arguments_dict) or (None, None).
     """
     # Intercept tool tags across line breaks
-    pattern = r'\[ACTION:\s*(\w+),\s*ARGUMENTS:\s*({.*?})\]'
+    pattern = r'\[ACTION:\s*(\w+),\s*ARGUMENTS:\s*({.*?})\s*\]'
     match = re.search(pattern, text, re.DOTALL)
     
     if not match:
